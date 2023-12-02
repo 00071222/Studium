@@ -37,11 +37,19 @@ export const Correo = () => {
     setIsModalError(false);
   };
 
+  const [dataFetched, setDataFetched] = useState(false); // Nuevo estado para manejar la disponibilidad de datos
+
   useEffect(() => {
     fetch(`${API_URL}/course/filter/${id_user}`)
       .then(response => response.json())
-      .then(data => setCursos(data))
-      .catch(error => console.error('Error fetching data:', error));
+      .then(data => {
+        setCursos(data);
+        setDataFetched(data.length > 0); // Actualiza el estado según si hay cursos o no
+      })
+      .catch(error => {
+        console.error('Error fetching data:', error);
+        setDataFetched(false); // En caso de error, también actualizamos el estado
+      });
   }, [id_user]);
 
   const handleCourseChange = (courseName) => {
@@ -90,7 +98,7 @@ export const Correo = () => {
       if (contentType && contentType.indexOf("application/json") !== -1) {
         const result = await response.json();
         console.log(result);
-        
+
       } else {
         const text = await response.text();
         console.log('Response not JSON:', text);
@@ -123,6 +131,11 @@ export const Correo = () => {
               onCourseChange={() => handleCourseChange(curso.nombre)}
             />
           ))}
+          {!dataFetched && (
+            <div>
+              <p>No hay cursos disponibles.</p>
+            </div>
+          )}
         </article>
       </article>
       <article className="mail">
@@ -145,23 +158,23 @@ export const Correo = () => {
         </form>
       </article>
       {modalError && (
-          <div className="modal-correo">
-            <div className="modal-content-correo">
-              <h2>¡Error, no se ha seleccionado destinatario!</h2>
-              <button className="boton-confirm" onClick={closeModalError}>Aceptar</button>
-            </div>
+        <div className="modal-correo">
+          <div className="modal-content-correo">
+            <h2>¡Error, no se ha seleccionado destinatario!</h2>
+            <button className="boton-confirm" onClick={closeModalError}>Aceptar</button>
           </div>
-        )}
-        {isModalOpen && (
-          <div className="modal-correo">
-            <div className="modal-content-correo">
-              <h2>¡Correo enviado exitosamente!</h2>
-              <button className="boton-confirm" onClick={closeModal}>Aceptar</button>
-            </div>
+        </div>
+      )}
+      {isModalOpen && (
+        <div className="modal-correo">
+          <div className="modal-content-correo">
+            <h2>¡Correo enviado exitosamente!</h2>
+            <button className="boton-confirm" onClick={closeModal}>Aceptar</button>
           </div>
-        )}
+        </div>
+      )}
     </div>
-    
+
   );
 }
 
