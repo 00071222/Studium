@@ -9,7 +9,7 @@ const API_URL = GLOBAL.map((e) => { return e.BASE_URL });
 //FUNCION TEXT TO LINKS
 function convertirTextoAHtml(texto) {
     const regexUrl = /(\b(https?|ftp|file):\/\/[-A-Z0-9+&@#/%?=~_|!:,.;]*[-A-Z0-9+&@#/%=~_|])/ig;
-    let nuevoTexto = texto.replace(regexUrl, `<a href="$1">Link</a>`);
+    let nuevoTexto = texto.replace(regexUrl, `<a href="$1" target="_blank">Link</a>`);
     return `<p>${nuevoTexto}</p>`;
 }
 
