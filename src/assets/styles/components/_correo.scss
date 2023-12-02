@@ -9,6 +9,15 @@ div.Correo-main-container {
     width: 100%;
     height: 100%;
     @include centrar-elemento;
+    h2{
+        font-size: x-large;
+        @include box-shadow-style;
+        padding: 1.5rem;
+        color: $color-blanco;
+        background-color: $color-azul;
+        border-radius: 1rem;
+        margin: 1rem
+    }
 
     article.cursos {
         @include box-shadow-style;
@@ -60,6 +69,7 @@ div.Correo-main-container {
             color: $color-blanco;
             border-radius: 1rem 1rem 0 0;
             margin: 0;
+            padding: 1rem;
         }
 
         form {

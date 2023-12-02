@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import CardCorreo from "./components/CardCorreo";
 import { useLocation } from 'react-router-dom';
 import { GLOBAL } from './assets/js/services';
@@ -9,14 +9,12 @@ export const Correo = () => {
   const mail = localStorage.getItem('EMAIL');
   const name = localStorage.getItem('NAME');
   const [cursos, setCursos] = useState([]);
+  const [cursosVacios, setCursosVacios] = useState(false); // Estado para manejar cursos vacíos
   const [recipient, setRecipient] = useState("");
-
   const [selectedCourseName, setSelectedCourseName] = useState('');
   const [subject, setSubject] = useState("");
   const [message, setMessage] = useState("");
-
   const id_user = localStorage.getItem('ID');
-
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [modalError, setIsModalError] = useState(false);
   const [isConfirmed, setConfirmed] = useState(false);
@@ -37,20 +35,24 @@ export const Correo = () => {
     setIsModalError(false);
   };
 
-  const [dataFetched, setDataFetched] = useState(false); // Nuevo estado para manejar la disponibilidad de datos
-
   useEffect(() => {
     fetch(`${API_URL}/course/filter/${id_user}`)
       .then(response => response.json())
       .then(data => {
-        setCursos(data);
-        setDataFetched(data.length > 0); // Actualiza el estado según si hay cursos o no
+        if (Array.isArray(data)) {
+          setCursos(data);
+          setCursosVacios(data.length === 0);
+        } else {
+          console.error('La respuesta no es un array:', data);
+          setCursosVacios(true);
+        }
       })
       .catch(error => {
         console.error('Error fetching data:', error);
-        setDataFetched(false); // En caso de error, también actualizamos el estado
+        setCursosVacios(true);
       });
   }, [id_user]);
+  
 
   const handleCourseChange = (courseName) => {
     setSelectedCourseName(courseName);
@@ -98,7 +100,7 @@ export const Correo = () => {
       if (contentType && contentType.indexOf("application/json") !== -1) {
         const result = await response.json();
         console.log(result);
-
+        
       } else {
         const text = await response.text();
         console.log('Response not JSON:', text);
@@ -114,30 +116,28 @@ export const Correo = () => {
 
   const location = useLocation();
   const { id } = location.state || [];
-  //console.log("CURSE:" + id);
 
   return (
     <div className='Correo-main-container'>
-      <article className="cursos">
-        <h1 className="Correo2">Mis cursos</h1>
-        <article>
-          {cursos.map(curso => (
-            <CardCorreo
-              key={curso._id}
-              id={curso._id}
-              titulo={curso.nombre}
-              horario={curso.horario}
-              onRecipientChange={handleRecipientChange}
-              onCourseChange={() => handleCourseChange(curso.nombre)}
-            />
-          ))}
-          {!dataFetched && (
-            <div>
-              <p>No hay cursos disponibles.</p>
-            </div>
-          )}
+      {cursosVacios ? (
+        <div><h2>No hay cursos disponibles</h2></div>
+      ) : (
+        <article className="cursos">
+          <h1 className="Correo2">Mis cursos</h1>
+          <article>
+            {cursos.map(curso => (
+              <CardCorreo
+                key={curso._id}
+                id={curso._id}
+                titulo={curso.nombre}
+                horario={curso.horario}
+                onRecipientChange={handleRecipientChange}
+                onCourseChange={() => handleCourseChange(curso.nombre)}
+              />
+            ))}
+          </article>
         </article>
-      </article>
+      )}
       <article className="mail">
         <h1 className="Correo">Nuevo mensaje</h1>
         <form onSubmit={handleSubmit}>
@@ -158,23 +158,23 @@ export const Correo = () => {
         </form>
       </article>
       {modalError && (
-        <div className="modal-correo">
-          <div className="modal-content-correo">
-            <h2>¡Error, no se ha seleccionado destinatario!</h2>
-            <button className="boton-confirm" onClick={closeModalError}>Aceptar</button>
+          <div className="modal-correo">
+            <div className="modal-content-correo">
+              <h2>¡Error, no se ha seleccionado destinatario!</h2>
+              <button className="boton-confirm" onClick={closeModalError}>Aceptar</button>
+            </div>
           </div>
-        </div>
-      )}
-      {isModalOpen && (
-        <div className="modal-correo">
-          <div className="modal-content-correo">
-            <h2>¡Correo enviado exitosamente!</h2>
-            <button className="boton-confirm" onClick={closeModal}>Aceptar</button>
+        )}
+        {isModalOpen && (
+          <div className="modal-correo">
+            <div className="modal-content-correo">
+              <h2>¡Correo enviado exitosamente!</h2>
+              <button className="boton-confirm" onClick={closeModal}>Aceptar</button>
+            </div>
           </div>
-        </div>
-      )}
+        )}
     </div>
-
+    
   );
 }
 

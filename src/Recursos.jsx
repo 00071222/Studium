@@ -6,11 +6,31 @@ import { useEffect, useState } from 'react';
 import axios from 'axios';
 import { GLOBAL } from './assets/js/services';
 import { Modal_agregar_recurso } from './Modal_agregar_recurso';
+import { BsFillTrashFill } from "react-icons/bs";
+import { useNavigate } from 'react-router-dom';
+import PropTypes from 'prop-types';
 
+const ConfirmationModal = ({ isOpen, onClose, onConfirm }) => {
+  if (!isOpen) return null;
+
+  return (
+    <div className='MODALC'>
+      <h2>Confirmar Eliminación</h2>
+      <p>¿Estás seguro de que deseas eliminar este curso?</p>
+      <button onClick={onConfirm}>Confirmar</button>
+      <button onClick={onClose}>Cancelar</button>
+    </div>
+  );
+};
+ConfirmationModal.propTypes = {
+  isOpen: PropTypes.func,
+  onClose: PropTypes.func,
+  onConfirm: PropTypes.func
+};
 const Recursos = () => {
 
   const [isModalOpen, setIsModalOpen] = useState(false);
-
+  const [isModalO, setIsModalO] = useState(false);
   //VARIABLES GLOBALES
   const API_URL = GLOBAL.map((e) => { return e.BASE_URL });
   //LOCAL STORAGE
@@ -38,6 +58,22 @@ const Recursos = () => {
   }, []);
   const owner = course.id_tutor;
   const id_curso = course._id;
+  const navigate = useNavigate();
+  const redirectHome = () => {
+    navigate('/home');
+  };
+  const handleDelete = async () => {
+    try {
+      const response = await axios.delete(`${API_URL}/course/${id}`);
+      console.log('Elemento eliminado:', response.data);
+      setIsModalOpen(false);
+      redirectHome();
+      // Aquí puedes agregar lógica adicional después de la eliminación exitosa.
+    } catch (error) {
+      console.error('Hubo un error al eliminar:', error);
+      // Manejar el error aquí.
+    }
+  };
 
   return (
     <div className="bigContainerRecursos">
@@ -45,22 +81,27 @@ const Recursos = () => {
         <HeaderRecursos key={course._id} img={course.imagen} owner={course.id_tutor} id={course._id} tittle={course.nombre} tutor={course.nombre_tutor}></HeaderRecursos>
       </article>
       <div className='containerTwo'>
-      <article className="descripcion">
+        <article className="descripcion">
           <ContentRecursos descripcion={course.descripcion} objectives={course.objetivos} id={course._id} key={course._id} materia={course.materia} f_inicio={course.fecha_inicio} f_fin={course.fecha_fin} h_inicio={course.horario} h_fin={""} />
         </article>
-      <article className="recursos">
+        <article className="recursos">
           {
             course.id_tutor === id_user ? (
               <>
-                <button onClick={() => alert("FALTA")} className='CreateRecurso'>
-                  Editar curso
-                </button>
                 <button onClick={() => setIsModalOpen(true)} className='CreateRecurso'>
                   Crear nuevo recurso
+                </button>
+                <button onClick={() => setIsModalO(true)} className='CreateRecurso-D'>
+                  <BsFillTrashFill />
                 </button>
               </>
             ) : null
           }
+          <ConfirmationModal
+            isOpen={isModalO}
+            onClose={() => setIsModalO(false)}
+            onConfirm={handleDelete}
+          />
 
           {course.recursos && Array.isArray(course.recursos) && course.recursos.map(r => (
             <BarCard key={r._id} id={r._id} textContent={r.descripcion} titulo={r.titulo} owner={owner.toString()} id_curso={id_curso}></BarCard>
