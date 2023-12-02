@@ -17,11 +17,23 @@ export const Metabuscador = () => {
   };
 
   const handleChange = (event) => {
-    setSeleccion(event.target.value);
+    const selectedValue = event.target.value;
+    setSeleccion(selectedValue);
     setInputValue("");
     setDataRecursos([]);
     setDataCursos([]);
-    seleccion === "materia" ? setplaceH("Nombre del estudiante") : seleccion === "curso" ? setplaceH("Nombre de la materia") : setplaceH("Nombre del curso");
+    switch (selectedValue) {
+      case "perfil":
+        setplaceH("Nombre del estudiante");
+        break;
+      case "materia":
+        setplaceH("Nombre de la materia");
+        break;
+      case "curso":
+      default:
+        setplaceH("Nombre del curso");
+        break;
+    }
   };
 
   const handleSubmit = async (event) => {
@@ -63,7 +75,7 @@ export const Metabuscador = () => {
       </article>
       {seleccion === "materia" || seleccion === "curso" ?
         <div className='cards-container'>
-          {dataCursos && Array.isArray(dataCursos) && dataCursos.length > 0 ? dataCursos.map(curso => { return <Cards key={curso._id} id={curso._id} tutor={curso.nombre_tutor} img={curso.imagen} h_fin={""} h_inicio={curso.horario} titulo={curso.nombre} f_inicio={curso.fecha_inicio} f_fin={curso.fecha_fin}></Cards> }) : <p>No se encontraron coincidencias</p>}
+          {dataCursos && Array.isArray(dataCursos) && dataCursos.length > 0 ? dataCursos.map(curso => { return <Cards key={curso._id} id={curso._id} tutor={curso.nombre_tutor} img={curso.imagen} h_fin={""} h_inicio={curso.horario} titulo={curso.nombre} f_inicio={curso.fecha_inicio} f_fin={curso.fecha_fin} materia={curso.materia}></Cards> }) : <p>No se encontraron coincidencias</p>}
         </div> :
         <div className='personaContainer'>
           {dataRecursos && Array.isArray(dataRecursos) && dataRecursos.length > 0 ? dataRecursos.map(r => { return <CardPerfil key={r._id} nombre={r.nombre} id={r._id} img={r.imagen} n_materias={r.num_materias} cum={r.cum}></CardPerfil> }) : <p>No se encontraron coincidencias</p>}

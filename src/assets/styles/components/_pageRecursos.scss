@@ -3,25 +3,42 @@
 @import '../mixins';
 
 //STYLES
-div.MODALC{
+div.MODALC {
     @include box-shadow-style;
+    @include centrar-elemento;
+    background-color: $color-blanco;
     border-radius: 1rem;
     padding: 2rem;
     position: fixed;
-    top: 50%;
-    left: 50%;
+    top: 42%;
+    left: 70%;
+    margin-right: 1rem;
     text-align: center;
     font-size: large;
     font-family: $tipografia;
-    h2{
+
+    h2 {
         font-size: larger;
     }
-    button{
+
+    button {
         @include boton-generico;
         margin: .5rem;
         font-size: large;
     }
+
+    @media only screen and (max-width: 768px) {
+        //top: 50%;
+        left: 2%;
+        margin-right: 1rem;
+    }
+    @media only screen and (min-width: 768px) and (max-width: 1024px) {
+         top: 30%;
+         left: 50%;
+         margin-right: 1rem;
+    }
 }
+
 div.bigContainerRecursos {
     display: flex;
     flex-direction: column;
@@ -66,7 +83,8 @@ div.bigContainerRecursos {
                 margin-bottom: .5rem;
                 margin-right: .5rem;
             }
-            .CreateRecurso-D{
+
+            .CreateRecurso-D {
                 @include boton-generico;
                 margin-left: auto;
                 float: right;

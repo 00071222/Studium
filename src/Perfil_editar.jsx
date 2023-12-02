@@ -75,7 +75,8 @@ function Perfil_editar() {
                         tutor={cursos.nombre_tutor} id={cursos._id} 
                         f_fin={cursos.fecha_fin} 
                         f_inicio={cursos.fecha_inicio} img={cursos.imagen} 
-                        h_inicio={cursos.horario} h_fin={""}></Cards>
+                        h_inicio={cursos.horario} h_fin={""}
+                        materia={cursos.materia}></Cards>
                     ))}
             </div>
         </div>

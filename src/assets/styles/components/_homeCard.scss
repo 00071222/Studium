@@ -40,6 +40,10 @@ div.Home-card {
         font-size: large;
 
     }
+    .Rosa{
+        color: $color-rosa;
+        padding-bottom: .5rem;
+    }
 
     article.btn-p-conteiner {
         display: flex;
@@ -47,7 +51,7 @@ div.Home-card {
 
         p {
             font-family: $tipografia;
-            color: $color-rosa;
+            
         }
 
         button.btn-unirme {

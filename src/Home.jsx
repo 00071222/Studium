@@ -35,7 +35,7 @@ function Home() {
             <h1>CIRCULOS DE ESTUDIO</h1>
             <div className='cards-container'>
                 {courses.courses && courses.courses.map(curso => (
-                    <Cards key={curso._id} titulo={curso.nombre} tutor={curso.nombre_tutor} id={curso._id} f_fin={curso.fecha_fin} f_inicio={curso.fecha_inicio} img={curso.imagen} h_inicio={curso.horario} h_fin={""}></Cards>
+                    <Cards key={curso._id} titulo={curso.nombre} tutor={curso.nombre_tutor} id={curso._id} f_fin={curso.fecha_fin} f_inicio={curso.fecha_inicio} img={curso.imagen} h_inicio={curso.horario} h_fin={""} materia={curso.materia}></Cards>
                 ))}
             </div>
             <div className="pagination">
