@@ -120,7 +120,7 @@ export const Correo = () => {
   return (
     <div className='Correo-main-container'>
       {cursosVacios ? (
-        <div><h2>No hay cursos disponibles</h2></div>
+        <div><h2 className='NOCURSOS'>No hay cursos disponibles</h2></div>
       ) : (
         <article className="cursos">
           <h1 className="Correo2">Mis cursos</h1>
