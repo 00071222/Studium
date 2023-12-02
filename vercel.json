@@ -1,0 +1,36 @@
+{
+    "routes": [
+        {
+            "src": "/",
+            "dest": "/"
+        },
+        {
+            "src": "/login",
+            "dest": "/"
+        },
+        {
+            "src": "/perfil",
+            "dest": "/"
+        },
+        {
+            "src": "/home",
+            "dest": "/"
+        },
+        {
+            "src": "/messages",
+            "dest": "/"
+        },
+        {
+            "src": "/search",
+            "dest": "/"
+        },
+        {
+            "src": "/recursos",
+            "dest": "/"
+        },
+        {
+            "src": "/perfil/agregar-curso",
+            "dest": "/"
+        }
+    ]
+}
