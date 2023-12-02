@@ -42,11 +42,13 @@
   font-size: 20px;
 }
 
-.modal .btn {
+.modal button.btn {
   display: block;
   margin: auto;
   width: 100%;
   height: 3rem;
+  @include boton-generico;
+  font-size: larger;
 }
 
 .form-group {

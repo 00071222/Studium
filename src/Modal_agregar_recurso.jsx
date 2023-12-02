@@ -6,12 +6,12 @@ import PropTypes from 'prop-types';
 
 export const Modal_agregar_recurso = ({ idCurso, closeModal, onSubmit, defaultValue }) => {
     const API_URL = GLOBAL.map((e) => { return e.BASE_URL });
-    console.log("MODAL AGREGAR:" + idCurso);
+    //console.log("MODAL AGREGAR:" + idCurso);
 
     const [formState, setFormState] = useState(
         defaultValue || {
             titulo: "",
-            descripcion: "",
+            descripcion: ""
         }
     );
     const [errors, setErrors] = useState("");

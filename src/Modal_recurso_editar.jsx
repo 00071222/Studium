@@ -27,6 +27,15 @@ const validateForm = () => {
             [name]: value,
         }));
     };
+    const handleTextareaChange = (e) => {
+        const textarea = e.target;
+        textarea.style.height = "auto"; // Restablece la altura a auto para obtener la altura total
+        textarea.style.height = `${textarea.scrollHeight}px`; // Establece la altura al tamaño desplazable
+        setFormState((prevState) => ({
+          ...prevState,
+          [e.target.name]: e.target.value,
+        }));
+      };
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -76,7 +85,7 @@ const validateForm = () => {
                         <textarea
                             required
                             name="descripcion"
-                            onChange={handleChange}
+                            onChange={handleTextareaChange}
                             value={formState.descripcion}
                         />
                     </div>

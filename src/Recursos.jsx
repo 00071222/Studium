@@ -23,9 +23,9 @@ const ConfirmationModal = ({ isOpen, onClose, onConfirm }) => {
   );
 };
 ConfirmationModal.propTypes = {
-  isOpen: PropTypes.func,
-  onClose: PropTypes.func,
-  onConfirm: PropTypes.func
+  isOpen: PropTypes.any,
+  onClose: PropTypes.any,
+  onConfirm: PropTypes.any
 };
 const Recursos = () => {
 
@@ -104,7 +104,7 @@ const Recursos = () => {
           />
 
           {course.recursos && Array.isArray(course.recursos) && course.recursos.map(r => (
-            <BarCard key={r._id} id={r._id} textContent={r.descripcion} titulo={r.titulo} owner={owner.toString()} id_curso={id_curso}></BarCard>
+            <BarCard key={r._id} id={r._id} textContent={r.descripcion} titulo={r.titulo} owner={owner} id_curso={course._id}></BarCard>
           ))}
 
           {isModalOpen && (
